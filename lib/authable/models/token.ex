@@ -31,7 +31,7 @@ defmodule Authable.Model.Token do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, [:name, :expires_at, :details, :user_id])
-    |> validate_required([:user_id])
+    # |> validate_required([:user_id])
     |> put_token_value
     |> unique_constraint(:value, name: :tokens_value_name_index)
   end
@@ -41,8 +41,8 @@ defmodule Authable.Model.Token do
     |> changeset(params)
     |> put_token_name("authorization_code")
     |> put_expires_at(
-         :os.system_time(:seconds) + expires_in()[:authorization_code]
-       )
+      :os.system_time(:seconds) + expires_in()[:authorization_code]
+    )
   end
 
   def refresh_token_changeset(model, params \\ :empty) do
